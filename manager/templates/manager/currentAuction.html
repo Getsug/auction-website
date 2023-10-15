@@ -1,0 +1,43 @@
+{% extends "auction/base.html" %}
+
+{%block content%}
+    <h2 class="text-center"><u>{{topObject.product}} Auction</u></h2><br>
+    {% if topObject.auction_status == "ACTIVE" %}
+        <p class="text-secondary fs-5  text-uppercase">AUCTION END : {{topObject.auction_end}} </p>
+    {% endif%}
+    <div class="content-section">
+        <div class="text-center">
+            <img class="img-thumbnail"  src="{{topObject.image.url}}">
+        </div>
+        <div class="text-secondary fs-4">
+            <p>Brief description: {{topObject.description}}</p>
+            <p>Agent: {{topObject.seller_name}}</p>
+            <p>Contact: {{topObject.seller_email}}</p>
+
+            {% if currentBids %}
+                <p>Minumum bid: {{highestBid}}</p>
+            {% else%}
+                <p>Minumum bid: {{topObject.minimum_bid}}</p>
+            {% endif %}
+        </div>
+        <!-- FORM HERE -->
+        {% if topObject.auction_status == "ACTIVE" %}
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Place your bid</legend>
+                    {{ form}}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Bid</button>
+                </div>
+            </form>
+        {% elif topObject.auction_status == "EXPIRED"%}
+            <legend class="border-bottom mb-4">AUCTION ENDED</legend>
+        {% else %}
+            <legend class="border-bottom mb-4">This auction will begin soon</legend>
+        {% endif%}
+
+    </div>
+
+{%endblock content%}

@@ -1,0 +1,33 @@
+{% extends "auction/base.html" %}
+
+{%block content%}
+    <h2 class="text-center"><u>Approved Auction List</u></h2><br>
+    <table class="table table-striped table-responsive">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Agent</th>
+                <th scope="col">Email</th>
+                <th scope="col">Product</th>
+                <th scope="col">Minumum Bid (₩) </th>
+                <th scope="col">Scheduled Duration (minutes)</th>
+                <!--<th scope="col">Status</th>-->
+            </tr>
+        </thead>
+        <tbody>
+            {% if dblist %}
+                {% for item in dblist %}
+                    <tr>
+                        <td>{{item.seller_name}}</td>
+                        <td>{{item.seller_email}}</td>
+                        <td>{{item.product}}</td>
+                        <td>{{item.minimum_bid}}</td>
+                        <td>{{item.auction_timespan}}</td>
+                        <!--<td>{{item.status}}</td>-->
+                    </tr>
+                {% endfor %}
+            {% else%}
+                <p class="text-center">No products have been approved yet</p>
+            {% endif %}
+        </tbody>
+    </table>
+{%endblock content%}
